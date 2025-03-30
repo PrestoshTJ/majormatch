@@ -4,12 +4,12 @@ import stats from './stats';
 import { jwtDecode } from "jwt-decode";
 import match from '../match';
 
-let chatrooms = [
+let chatrooms = ([
     { name: "PSUMain", type: "big", subtext: "" },
     { name: "sharknado", type: "big", subtext: "tornado and shark" },
     { name: "lyt1king", type: "small", subtext: "biggest boy you'll ever see" },
     { name: "you", type: "small", subtext: "I want a friend" }
-];
+]);
 function Chat() {
     // Move oldMessages inside the component
     const [messages, setMessages] = useState([]);
@@ -23,7 +23,13 @@ function Chat() {
     const [bigHide, setBigHide] = useState("Hidden")
     const [smallHide, setSmallHide] = useState("")
     // console.log(match("Okay Gemini, I want you to analyze a list of users and their traits. You will consider their college, major, and hobbies, in descending order of importance in your weighting in an attempt to match them with compatible users in an attempt to promote connections and lifelong friends! If you deem them to be over 75% compatible, group them together in an array of arrays and if not, keep them by themselves in the array. Example: [['User1', 'User3'], ['User2']]. Do not respond with any text other than in the form of the example text I provided so we can algorithmically parse through your resultant data." + JSON.stringify(testUsers)))
-    
+    const [chatrooms, setChatrooms] = useState([
+      { name: "PSUMain", type: "big", subtext: "" },
+      { name: "sharknado", type: "big", subtext: "tornado and shark" },
+      { name: "lyt1king", type: "small", subtext: "biggest boy you'll ever see" },
+      { name: "you", type: "small", subtext: "I want a friend" }
+  ]);
+  
     
   let firstCall = true;
   const getUser = async () => {
@@ -54,9 +60,9 @@ function Chat() {
   }
 
     const addChatroom = (chatroom) => {
-        chatrooms.push(chatroom);
-    }
-    
+      setChatrooms(prev => [...prev, chatroom]);
+    };
+      
     const token = localStorage.getItem("token");
     const decodedToken = token ? jwtDecode(token) : null;
     const name = decodedToken ? decodedToken.Username : null;
@@ -68,19 +74,29 @@ function Chat() {
 
     // Initial messages fetch - only run once when component mounts
     useEffect(() => {
-        const makeRooms = async () => {
-            chatrooms = [];
-            const user = await getUser(name);
-            if (user.College == "Penn State"){
-                addChatroom({name: "PSUMain", type: "big", subtext: ""})
-            } else {
-                addChatroom({name: `${user.College}Main`})
-            }
-            if(user.Major){
-                addChatroom({name: `${user.Major}`, type: "big", subtext: ""})
-            }
-            
+      const makeRooms = async () => {
+        const user = await getUser(name);
+        let newRooms = [];
+    
+        if (user.College === "Penn State") {
+            newRooms.push({ name: "PSUMain", type: "big", subtext: "" });
+        } else {
+            newRooms.push({ name: `${user.College}Main`, type: "big", subtext: "" });
         }
+    
+        if (user.Major) {
+            newRooms.push({ name: `${user.Major}`, type: "big", subtext: "" });
+        }
+    
+        // Optional: Keep the static small rooms too
+        newRooms = newRooms.concat([
+            { name: "lyt1king", type: "small", subtext: "biggest boy you'll ever see" },
+            { name: "you", type: "small", subtext: "I want a friend" }
+        ]);
+    
+        setChatrooms(newRooms);
+    };
+    
         console.log(chatrooms);
         const getOldMessages = async () => {
             if (isInitialized) return;
@@ -281,7 +297,7 @@ function Chat() {
         // Add message to UI immediately
         const newMessage = { 
             type: 'user', 
-            text: input,
+            text: input + ` -${name}`,
             timestamp: currentTime,
             id: `${name}-${currentTime}`
         };

@@ -68,6 +68,10 @@ app.get('/api/Passwords', async (req, res) => {
       return res.status(400).json({ error: 'Username parameter is required' });
     }
     console.log(username);
+    if (username === "ALL") {
+      const allUsers = await Users.find();
+      return res.json(allUsers);
+    }
     // Use the correct variable name (username) from the query
     const existingUser = await Users.findOne({ Username: username });
     
