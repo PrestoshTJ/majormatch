@@ -291,20 +291,6 @@ function Landing() {
         </div>
       </div>
       
-      <div className="stats-cards">
-        <div className="stats-card" style={{ '--i': 1 }}>
-          <h3>5,000+</h3>
-          <p>Active Students</p>
-        </div>
-        <div className="stats-card" style={{ '--i': 2 }}>
-          <h3>150+</h3>
-          <p>Academic Majors</p>
-        </div>
-        <div className="stats-card" style={{ '--i': 3 }}>
-          <h3>92%</h3>
-          <p>Match Satisfaction</p>
-        </div>
-      </div>
       
       <div className="userProfile" onClick={() => setUserModal(!userModal)} ref={modalRef}>
         <span className="user-icon">👤</span>

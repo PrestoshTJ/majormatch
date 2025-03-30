@@ -207,7 +207,7 @@ function Stats() {
 
         {/* Hobbies Input */}
         <div className="slider-container">
-          <label className="slider-label" htmlFor="hobbies">List a few of your hobbies. The more you list, the more accurate our matching can be! </label>
+          <label className="slider-label" htmlFor="hobbies">List a few of your hobbies. The more you list, the more accurate our matching!</label>
           <textarea
             id="hobbies"
             name="hobbies"
