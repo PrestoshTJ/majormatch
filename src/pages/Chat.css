@@ -108,7 +108,6 @@
 .chat-message.user {
   background: #e5edff;
   color: #222;
-  align-self: flex-end;
 }
 
 .chat-main {

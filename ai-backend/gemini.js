@@ -3,9 +3,10 @@ const express = require('express');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const mime = require("mime-types");
 const fs = require("fs");
+require('dotenv').config();
 
 const router = express.Router();
-const apiKey = "AIzaSyDrGcIk22XLIogB19P2d-lx8YEUchRZHj4"; // Store your API key securely
+const apiKey = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
 
 const model = genAI.getGenerativeModel({

@@ -8,7 +8,8 @@ import match from '../match'
 const token = localStorage.getItem("token");
 const decodedToken = token ? jwtDecode(token) : null;
 const name = decodedToken ? decodedToken.Username : null;
-// console.log(match("cool"))
+const testUsers = [{user: "Cool", college: "Penn State", major: "Computer Science", hobbies: "Music"}, {user: "Cool2", college: "Penn State", major: "Computer Engineering", hobbies: "Movies"}, {user: "Cool3", college: "Penn State", major: "Biology", hobbies: "Music"}]
+// console.log(match("Okay Gemini, I want you to analyze a list of users and their traits. You will consider their college, major, and hobbies, in descending order of importance in your weighting in an attempt to match them with compatible users in an attempt to promote connections and lifelong friends! If you deem them to be over 75% compatible, group them together in an array of arrays and if not, keep them by themselves in the array. Example: [['User1', 'User3'], ['User2']]. Do not respond with any text other than in the form of the example text I provided so we can algorithmically parse through your resultant data." + JSON.stringify(testUsers)))
 
 
 let oldMessages = []
@@ -30,7 +31,7 @@ const getOldMessages = async () => {
       const data = await response.json();
 
       data.forEach(msg => {
-        oldMessages.push({type : name == msg.Username ? 'user' : msg.Username, text: msg.Message});
+        oldMessages.push({type : name == msg.Username ? 'user' : msg.Username, text: msg.Message, timestamp: msg.Time});
       });
 
   } catch (error) {
@@ -57,12 +58,12 @@ function Chat() {
   
   // Function to fetch new messages since the last one we have
   const fetchNewMessages = async () => {
-    console.log('a')
     try {
         // Get the timestamp of the last message we have
         const lastMessageTime = messages.length > 0 
             ? messages[messages.length - 1].timestamp 
             : 0;
+
 
             const response = await fetch(`http://localhost:3003/api/chatrooms/PSUMain`, {
               method: "GET",
@@ -70,6 +71,7 @@ function Chat() {
                   "Content-Type": "application/json",
               }
             });
+    
         if (!response.ok) {
             throw new Error("Failed to fetch new messages");
         }
@@ -272,6 +274,8 @@ function Chat() {
                         {msg.text}
                         </div>
                     ))}
+                    </div>
+                    <div ref={messagesEndRef}>
                     </div>
                     <div className="formWrapper">
                     <form onSubmit={handleSubmit} className="chat-form">
