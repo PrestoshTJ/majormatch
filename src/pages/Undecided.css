@@ -1,0 +1,221 @@
+/* Base resets */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+  overflow-y:auto;
+}
+
+/* Main card container */
+.survey-container {
+  background: white;
+  padding: 2rem 3rem;
+  border-radius: 1rem;
+  max-width: 800px;
+  width: 100%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  overflow-y: auto;
+}
+
+/* Typography */
+.survey-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.survey-description {
+  text-align: center;
+  color: #64748b;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Slider styling */
+.slider-container {
+  padding: 1.5rem;
+  background-color: #f8fafc;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+  margin-bottom: 1.5rem;
+  box-sizing: border-box;
+}
+
+.slider {
+  width: 100%;
+  max-width: 100%;
+  padding: 0 0.5rem; /* gives breathing room for the thumb */
+  box-sizing: border-box;
+}
+
+
+
+
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+}
+
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #3b82f6;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0,0,0,0.15);
+  transition: background 0.2s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  background: #2563eb;
+}
+
+.slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: #3b82f6;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+}
+
+.slider-extremes {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin-top: 0.3rem;
+}
+
+.slider-value {
+  text-align: center;
+  margin-top: 0.3rem;
+  font-weight: 500;
+  color: #475569;
+}
+
+/* Submit Button */
+.submit-button {
+  background: #3b82f6;
+  color: white;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.submit-button:hover {
+  background: #2563eb;
+}
+
+/* Recommendations */
+.recommendations-container {
+  margin-top: 3rem;
+}
+
+.recommendations-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+}
+
+.recommendations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.recommendation-item {
+  background: #f1f5f9;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.rank {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #3b82f6;
+}
+
+.major-name {
+  flex: 1;
+  text-align: center;
+}
+
+.match-score {
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+.no-recommendations {
+  text-align: center;
+  color: #ef4444;
+  font-weight: 500;
+  padding: 1rem;
+}
+
+/* Styled dropdowns and textarea */
+select.slider,
+textarea.slider,
+input.slider[type="text"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background-color: #ffffff;
+  color: #1e293b;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+select.slider:focus,
+textarea.slider:focus,
+input.slider[type="text"]:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Button-link style */
+a.submit-button {
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
