@@ -5,10 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import match from '../match';
 
 let chatrooms = ([
-    { name: "PSUMain", type: "big", subtext: "" },
-    { name: "sharknado", type: "big", subtext: "tornado and shark" },
-    { name: "lyt1king", type: "small", subtext: "biggest boy you'll ever see" },
-    { name: "you", type: "small", subtext: "I want a friend" }
+
 ]);
 function Chat() {
     // Move oldMessages inside the component
@@ -72,6 +69,28 @@ function Chat() {
     const lastMessageTimeRef = useRef(0);
     const chatContainerRef = useRef(null);
 
+    const getAllUsers = async () => {
+      try {
+          const response = await fetch(`http://localhost:3003/api/Passwords?username=ALL`, {
+              method: "GET",
+              headers: {
+                  "Content-Type": "application/json",
+              }
+          });
+  
+          if (!response.ok) {
+              throw new Error("Failed to fetch users");
+          }
+          const users = await response.json();
+          console.log("All users:", users); // Check what you're getting
+          // Do something with the users, like setting them to state
+          return users;
+      } catch (error) {
+          console.error("Error fetching users:", error);
+          return [];
+      }
+  }
+
     // Initial messages fetch - only run once when component mounts
     useEffect(() => {
       const makeRooms = async () => {
@@ -87,14 +106,20 @@ function Chat() {
         if (user.Major) {
             newRooms.push({ name: `${user.Major}`, type: "big", subtext: "" });
         }
+        if (name == 'f' || name == 'tjp'){
+            newRooms.push({name: "f:tjp", type: "small", subtext:""})
+        }
     
         // Optional: Keep the static small rooms too
-        newRooms = newRooms.concat([
-            { name: "lyt1king", type: "small", subtext: "biggest boy you'll ever see" },
-            { name: "you", type: "small", subtext: "I want a friend" }
-        ]);
+
     
         setChatrooms(newRooms);
+      
+        const fetchUsers = async () => {
+          const users = await getAllUsers();
+          // Do something with the users, e.g., setAllUsers(users)
+      };
+      fetchUsers();
     };
     
         console.log(chatrooms);

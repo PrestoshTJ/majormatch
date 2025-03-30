@@ -67,12 +67,22 @@ app.get('/api/Passwords', async (req, res) => {
     if (!username) {
       return res.status(400).json({ error: 'Username parameter is required' });
     }
-    console.log(username);
-    if (username === "ALL") {
-      const allUsers = await Users.find();
-      return res.json(allUsers);
+    
+    console.log("Requested username:", username); // Add this for debugging
+    
+    if (username === "ALL") { // Use strict equality instead of toUpperCase()
+      console.log('Fetching all users');
+      try {
+        const allUsers = await Users.find({});
+        console.log("Found users:", allUsers.length);
+        return res.status(200).json(allUsers);
+      } catch (dbError) {
+        console.error("Database error:", dbError);
+        return res.status(500).json({ error: 'Database error' });
+      }
     }
-    // Use the correct variable name (username) from the query
+    
+    // Rest of your code for single user lookup
     const existingUser = await Users.findOne({ Username: username });
     
     // Check if user exists
@@ -80,13 +90,26 @@ app.get('/api/Passwords', async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
     
-    // Return the required user information using existingUser instead of userData
+    // Return the required user information
     res.status(200).json({
       Username: existingUser.Username,
       College: existingUser.College,
       Major: existingUser.Major,
       Hobbies: existingUser.Hobbies
     });
+    
+  } catch (error) {
+    console.error('Error retrieving user data:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/api/Passwords2', async (req, res) => {
+  try {
+    const allUsers = await Users.find();
+    console.log(allUsers);
+    res.status(200).json(allUsers);    
+
     
   } catch (error) {
     console.error('Error retrieving user data:', error);
