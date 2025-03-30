@@ -5,7 +5,7 @@ async function match(prompt) {
     console.log(prompt)
     
     try {
-        const response = await fetch('http://localhost:3001/api/gemini', {
+        const response = await fetch('http://localhost:4001/api/gemini', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

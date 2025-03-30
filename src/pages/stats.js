@@ -46,7 +46,7 @@ function Stats() {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ Username: name, College: formData.college, Major: formData.major, Hobbies: formData.hobbies}), 
+            body: JSON.stringify({ Username: name, College: formData.college !== "Other" ? formData.college : formData.otherCollege, Major: formData.major !== "Other" ? formData.major : formData.otherMajor, Hobbies: formData.hobbies}), 
           });
       
           

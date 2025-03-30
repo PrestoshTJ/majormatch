@@ -8,9 +8,11 @@ import match from '../match'
 const token = localStorage.getItem("token");
 const decodedToken = token ? jwtDecode(token) : null;
 const name = decodedToken ? decodedToken.Username : null;
+// console.log(match("cool"))
 
 
 let oldMessages = []
+
 const getOldMessages = async () => {
   try {
       const response = await fetch(`http://localhost:3003/api/chatrooms/PSUMain`, {
@@ -46,8 +48,90 @@ function Chat() {
     const [hasStatsFilled, setHasStatsFilled] = useState(true)
     const [roomType, setRoomType] = useState('small');
     const [userModal, setUserModal] = useState(false);
+    const [isConnected, setIsConnected] = useState(false);
 
     const modalRef = useRef(null);
+
+  // Create a ref to store the interval ID
+  const messagePollingRef = useRef(null);
+  
+  // Function to fetch new messages since the last one we have
+  const fetchNewMessages = async () => {
+    console.log('a')
+    try {
+        // Get the timestamp of the last message we have
+        const lastMessageTime = messages.length > 0 
+            ? messages[messages.length - 1].timestamp 
+            : 0;
+
+            const response = await fetch(`http://localhost:3003/api/chatrooms/PSUMain`, {
+              method: "GET",
+              headers: {
+                  "Content-Type": "application/json",
+              }
+            });
+        if (!response.ok) {
+            throw new Error("Failed to fetch new messages");
+        }
+
+        const newMsgsData = await response.json();
+
+        if (newMsgsData && newMsgsData.length > 0) {
+            // Filter out messages that are not newer than the last timestamp
+            const filteredNewMsgs = newMsgsData.filter(msg => msg.Time > lastMessageTime);
+
+            // Format the new messages
+            const formattedNewMsgs = filteredNewMsgs.map(msg => ({
+                type: name === msg.Username ? 'user' : msg.Username,
+                text: msg.Message,
+                timestamp: msg.Time
+            }));
+
+            // Update the messages state with only the new messages
+            if (formattedNewMsgs.length > 0) {
+                setMessages(messages => [...messages, ...formattedNewMsgs]);
+            }
+        }
+    } catch (error) {
+        console.error("Error fetching new messages:", error);
+    }
+};
+
+  // Setup the message polling when component mounts
+  useEffect(() => {
+    // Start polling for new messages
+    const startMessagePolling = () => {
+      setIsConnected(true);
+      // Poll for new messages every 3 seconds
+      messagePollingRef.current = setInterval(fetchNewMessages, 3000);
+    };
+    
+    // Stop polling when component unmounts
+    const stopMessagePolling = () => {
+      setIsConnected(false);
+      if (messagePollingRef.current) {
+        clearInterval(messagePollingRef.current);
+      }
+    };
+    
+    startMessagePolling();
+    
+    // Clean up function to clear the interval when component unmounts
+    return () => {
+      stopMessagePolling();
+    };
+  }, []); // Empty dependency array means this effect runs once on mount
+  
+  // Scroll to bottom when new messages arrive
+  const messagesEndRef = useRef(null);
+  
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+  
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
     useEffect(() => {
     function handleClickOutside(event) {
