@@ -19,7 +19,7 @@ function Chat() {
     const [curRoom, setCurRoom] = useState("PSUMain");
     const [bigHide, setBigHide] = useState("Hidden")
     const [smallHide, setSmallHide] = useState("")
-    // console.log(match("Okay Gemini, I want you to analyze a list of users and their traits. You will consider their college, major, and hobbies, in descending order of importance in your weighting in an attempt to match them with compatible users in an attempt to promote connections and lifelong friends! If you deem them to be over 75% compatible, group them together in an array of arrays and if not, keep them by themselves in the array. Example: [['User1', 'User3'], ['User2']]. Do not respond with any text other than in the form of the example text I provided so we can algorithmically parse through your resultant data." + JSON.stringify(testUsers)))
+    console.log(match("Okay Gemini, I want you to analyze a list of users and their traits. You will consider their college, major, and hobbies, in descending order of importance in your weighting in an attempt to match them with compatible users in an attempt to promote connections and lifelong friends! If you deem them to be over 75% compatible, group them together in an array of arrays and if not, keep them by themselves in the array. Example: [['User1', 'User3'], ['User2']]. Do not respond with any text other than in the form of the example text I provided so we can algorithmically parse through your resultant data." + JSON.stringify(testUsers)))
     const [chatrooms, setChatrooms] = useState([
       { name: "PSUMain", type: "big", subtext: "" },
       { name: "sharknado", type: "big", subtext: "tornado and shark" },
